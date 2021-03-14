@@ -1,0 +1,13 @@
+prefix=D:/github_local/fps_upscaling/Conda_env/Library
+exec_prefix=D:/github_local/fps_upscaling/Conda_env/Library
+libdir=D:/github_local/fps_upscaling/Conda_env/Library/lib
+sharedlibdir=D:/github_local/fps_upscaling/Conda_env/Library/lib
+includedir=D:/github_local/fps_upscaling/Conda_env/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.11
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
