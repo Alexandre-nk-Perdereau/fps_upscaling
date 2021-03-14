@@ -1,0 +1,49 @@
+{
+  "build": "8_mkl",
+  "build_number": 8,
+  "channel": "https://conda.anaconda.org/conda-forge/win-64",
+  "constrains": [
+    "blas * mkl"
+  ],
+  "depends": [
+    "libblas 3.9.0 8_mkl",
+    "libcblas 3.9.0 8_mkl",
+    "liblapack 3.9.0 8_mkl"
+  ],
+  "extracted_package_dir": "C:\\Users\\alexa\\anaconda3\\pkgs\\liblapacke-3.9.0-8_mkl",
+  "features": "",
+  "files": [
+    "Library/bin/liblapacke.dll",
+    ".nonadmin"
+  ],
+  "fn": "liblapacke-3.9.0-8_mkl.tar.bz2",
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "C:\\Users\\alexa\\anaconda3\\pkgs\\liblapacke-3.9.0-8_mkl",
+    "type": 1
+  },
+  "md5": "e44e57d67449738ff4833ef2b6e0ed30",
+  "name": "liblapacke",
+  "package_tarball_full_path": "C:\\Users\\alexa\\anaconda3\\pkgs\\liblapacke-3.9.0-8_mkl.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/liblapacke.dll",
+        "path_type": "hardlink",
+        "sha256": "21f2fdeba006790c4f7e8d254296e8fb6e67c623d7226ec05747f9217aa769e6",
+        "sha256_in_prefix": "21f2fdeba006790c4f7e8d254296e8fb6e67c623d7226ec05747f9217aa769e6",
+        "size_in_bytes": 17184624
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "1e6bca90c1912bbcfd7838be244ec2e6b486adbe37abc1cd523079b74a48d7c3",
+  "size": 4071868,
+  "subdir": "win-64",
+  "timestamp": 1612394686056,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/liblapacke-3.9.0-8_mkl.tar.bz2",
+  "version": "3.9.0"
+}

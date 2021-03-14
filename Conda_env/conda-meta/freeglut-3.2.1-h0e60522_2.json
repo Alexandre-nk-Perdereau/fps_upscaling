@@ -1,0 +1,156 @@
+{
+  "build": "h0e60522_2",
+  "build_number": 2,
+  "channel": "https://conda.anaconda.org/conda-forge/win-64",
+  "constrains": [],
+  "depends": [
+    "vc >=14.1,<15.0a0",
+    "vs2015_runtime >=14.16.27012"
+  ],
+  "extracted_package_dir": "C:\\Users\\alexa\\anaconda3\\pkgs\\freeglut-3.2.1-h0e60522_2",
+  "features": "",
+  "files": [
+    "Library/bin/freeglut.dll",
+    "Library/bin/glut.dll",
+    "Library/include/GL/freeglut.h",
+    "Library/include/GL/freeglut_ext.h",
+    "Library/include/GL/freeglut_std.h",
+    "Library/include/GL/freeglut_ucall.h",
+    "Library/include/GL/glut.h",
+    "Library/lib/cmake/FreeGLUT/FreeGLUTConfig.cmake",
+    "Library/lib/cmake/FreeGLUT/FreeGLUTConfigVersion.cmake",
+    "Library/lib/cmake/FreeGLUT/FreeGLUTTargets-release.cmake",
+    "Library/lib/cmake/FreeGLUT/FreeGLUTTargets.cmake",
+    "Library/lib/freeglut.lib",
+    "Library/lib/glut.lib",
+    "Library/lib/pkgconfig/glut.pc",
+    ".nonadmin"
+  ],
+  "fn": "freeglut-3.2.1-h0e60522_2.tar.bz2",
+  "license": "MIT",
+  "license_family": "MIT",
+  "link": {
+    "source": "C:\\Users\\alexa\\anaconda3\\pkgs\\freeglut-3.2.1-h0e60522_2",
+    "type": 1
+  },
+  "md5": "af168d460feacb7984d54161a1eff1a8",
+  "name": "freeglut",
+  "package_tarball_full_path": "C:\\Users\\alexa\\anaconda3\\pkgs\\freeglut-3.2.1-h0e60522_2.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/freeglut.dll",
+        "path_type": "hardlink",
+        "sha256": "09ec4c338108665f149469a2cd2e317f4ed1330f1ccd0fd2b3c67b59d3aaeda4",
+        "sha256_in_prefix": "09ec4c338108665f149469a2cd2e317f4ed1330f1ccd0fd2b3c67b59d3aaeda4",
+        "size_in_bytes": 278528
+      },
+      {
+        "_path": "Library/bin/glut.dll",
+        "path_type": "hardlink",
+        "sha256": "09ec4c338108665f149469a2cd2e317f4ed1330f1ccd0fd2b3c67b59d3aaeda4",
+        "sha256_in_prefix": "09ec4c338108665f149469a2cd2e317f4ed1330f1ccd0fd2b3c67b59d3aaeda4",
+        "size_in_bytes": 278528
+      },
+      {
+        "_path": "Library/include/GL/freeglut.h",
+        "path_type": "hardlink",
+        "sha256": "e5a823629d7b4ed8f3ec9497161ae2765bf5f13e32bb7928f6f1bf8eef2a3109",
+        "sha256_in_prefix": "e5a823629d7b4ed8f3ec9497161ae2765bf5f13e32bb7928f6f1bf8eef2a3109",
+        "size_in_bytes": 681
+      },
+      {
+        "_path": "Library/include/GL/freeglut_ext.h",
+        "path_type": "hardlink",
+        "sha256": "8e944e3e8935db0a46b04387bb60f489b4ff317250143f494a66bbd73d00b456",
+        "sha256_in_prefix": "8e944e3e8935db0a46b04387bb60f489b4ff317250143f494a66bbd73d00b456",
+        "size_in_bytes": 11008
+      },
+      {
+        "_path": "Library/include/GL/freeglut_std.h",
+        "path_type": "hardlink",
+        "sha256": "522c6f65a461b2fc12be7897b149b67da213140808c3704a1ed0d4fd495526b5",
+        "sha256_in_prefix": "522c6f65a461b2fc12be7897b149b67da213140808c3704a1ed0d4fd495526b5",
+        "size_in_bytes": 27097
+      },
+      {
+        "_path": "Library/include/GL/freeglut_ucall.h",
+        "path_type": "hardlink",
+        "sha256": "27ddc012acc455901262a9b5edeffff39d5109da17f3d445b006549b47882d53",
+        "sha256_in_prefix": "27ddc012acc455901262a9b5edeffff39d5109da17f3d445b006549b47882d53",
+        "size_in_bytes": 5871
+      },
+      {
+        "_path": "Library/include/GL/glut.h",
+        "path_type": "hardlink",
+        "sha256": "e3ffcfd1147cd45a9ddb49ab9791e8fc6269f52732f0c02f10f2daf9cc0e730b",
+        "sha256_in_prefix": "e3ffcfd1147cd45a9ddb49ab9791e8fc6269f52732f0c02f10f2daf9cc0e730b",
+        "size_in_bytes": 639
+      },
+      {
+        "_path": "Library/lib/cmake/FreeGLUT/FreeGLUTConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "27800d5fe85e51dc9ad2c7ab2aaccb5cc180b6d640c2232916e8181c9c5697ca",
+        "sha256_in_prefix": "27800d5fe85e51dc9ad2c7ab2aaccb5cc180b6d640c2232916e8181c9c5697ca",
+        "size_in_bytes": 60
+      },
+      {
+        "_path": "Library/lib/cmake/FreeGLUT/FreeGLUTConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "818033862b0f75f40d11e6a7b93b5f7489803153b378d2870f8e0d11a18a289f",
+        "sha256_in_prefix": "818033862b0f75f40d11e6a7b93b5f7489803153b378d2870f8e0d11a18a289f",
+        "size_in_bytes": 2025
+      },
+      {
+        "_path": "Library/lib/cmake/FreeGLUT/FreeGLUTTargets-release.cmake",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/freeglut_1612253818901/_h_env",
+        "sha256": "ee7aae5fb668d3062b35348d3ebcb75ab8f78d8fa56bb3647cae7e9248eb530b",
+        "sha256_in_prefix": "73a7eff725a385748c1d00c08af10483886cc7ec8b6a86f61d886ab473a2772c",
+        "size_in_bytes": 960
+      },
+      {
+        "_path": "Library/lib/cmake/FreeGLUT/FreeGLUTTargets.cmake",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/freeglut_1612253818901/_h_env",
+        "sha256": "aa63b0c874ffd70d0f0b27d5d4af72b31bdcfa17c6e1ba6e5ea8b63078c2a206",
+        "sha256_in_prefix": "f12cb3924719b8372b58cc74e6fd1225383f927f5f53dc1c0177a9c6d5f0be29",
+        "size_in_bytes": 3280
+      },
+      {
+        "_path": "Library/lib/freeglut.lib",
+        "path_type": "hardlink",
+        "sha256": "b38117055d112dfcc8130039b64b740aa9123e205df3b15d24be44005d662685",
+        "sha256_in_prefix": "b38117055d112dfcc8130039b64b740aa9123e205df3b15d24be44005d662685",
+        "size_in_bytes": 44974
+      },
+      {
+        "_path": "Library/lib/glut.lib",
+        "path_type": "hardlink",
+        "sha256": "b38117055d112dfcc8130039b64b740aa9123e205df3b15d24be44005d662685",
+        "sha256_in_prefix": "b38117055d112dfcc8130039b64b740aa9123e205df3b15d24be44005d662685",
+        "size_in_bytes": 44974
+      },
+      {
+        "_path": "Library/lib/pkgconfig/glut.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/freeglut_1612253818901/_h_env",
+        "sha256": "8855d4f7cb4c3954e187a374d2341cbbdd8fa611d631f07cc6d5fe167bbbeeb8",
+        "sha256_in_prefix": "ade63364c7297a7a0c0083afce868a567640062a7d6b69546e10612bc10b2072",
+        "size_in_bytes": 345
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "db1fcd0af9a81e02c2bb4c639fa66337da97bd564074c70dc7134cd61b36cf2b",
+  "size": 152587,
+  "subdir": "win-64",
+  "timestamp": 1612254217125,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/freeglut-3.2.1-h0e60522_2.tar.bz2",
+  "version": "3.2.1"
+}

@@ -1,0 +1,38 @@
+{
+  "build": "py37h03978a9_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge/win-64",
+  "constrains": [],
+  "depends": [
+    "libopencv 4.5.1 py37ha0199f4_0",
+    "py-opencv 4.5.1 py37heaed05f_0",
+    "python_abi 3.7.* *_cp37m"
+  ],
+  "extracted_package_dir": "C:\\Users\\alexa\\anaconda3\\pkgs\\opencv-4.5.1-py37h03978a9_0",
+  "features": "",
+  "files": [
+    ".nonadmin"
+  ],
+  "fn": "opencv-4.5.1-py37h03978a9_0.tar.bz2",
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "C:\\Users\\alexa\\anaconda3\\pkgs\\opencv-4.5.1-py37h03978a9_0",
+    "type": 1
+  },
+  "md5": "4319e21fe1935e5d49644266879039ba",
+  "name": "opencv",
+  "package_tarball_full_path": "C:\\Users\\alexa\\anaconda3\\pkgs\\opencv-4.5.1-py37h03978a9_0.tar.bz2",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "opencv",
+  "sha256": "d43d2d773288e45e14a02b75123a05fe31b2321669c96a200bcf6118fc4039a3",
+  "size": 22102,
+  "subdir": "win-64",
+  "timestamp": 1612627473226,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/opencv-4.5.1-py37h03978a9_0.tar.bz2",
+  "version": "4.5.1"
+}
