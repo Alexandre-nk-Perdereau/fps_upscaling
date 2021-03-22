@@ -36,5 +36,5 @@ def video_to_frames(video_path, path_output_dir):
 
 
 if __name__ == '__main__':
-    video_to_frames(r"D:\blender_videos\test.mkv",
-                    r"D:\github_local\fps_upscaling\Data\Datasets\test_ds")
+    video_to_frames(r"D:\github_local\videos\Spring - Blender Open Movie.mp4",
+                    r"D:\github_local\fps_upscaling\Data\Datasets\Spring")

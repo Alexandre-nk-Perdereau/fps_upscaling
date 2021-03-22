@@ -9,12 +9,12 @@ TRAINING_SET = 0
 TEST_SET = 1
 
 
-class Frameupscaling_Dataset(Dataset):
+class FrameUpscalingDataset(Dataset):
 
     def __init__(self, folder_list, set):
         self.triplets = []
 
-        if set ==TRAINING_SET:
+        if set == TRAINING_SET:
             self.transformations = transforms.Compose([transforms.ToTensor()])
         else:
             self.transformations = transforms.Compose([transforms.ToTensor()])
@@ -47,7 +47,7 @@ class Frameupscaling_Dataset(Dataset):
 
 
 if __name__ == "__main__":
-    test_ds = Frameupscaling_Dataset(['test_ds'], TRAINING_SET)
+    test_ds = FrameUpscalingDataset(['test_ds'], TRAINING_SET)
     test_tensor, _, _ = test_ds[1000]
     test_image = transforms.ToPILImage()(test_tensor)
     test_image.save(join(debug_path, "test_image.jpg"))
