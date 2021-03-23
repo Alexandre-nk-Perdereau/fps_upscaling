@@ -1,8 +1,13 @@
 import cv2
+import numpy
+from PIL import Image
 import os
+from pathlib import Path
 
 
-def video_to_frames(video_path, path_output_dir):
+def video_to_frames(video_path, path_output_dir, size=()):
+
+    Path(path_output_dir).mkdir(parents=True, exist_ok=True)
 
     current_triplet = []
     vid_cap = cv2.VideoCapture(video_path)
@@ -11,7 +16,12 @@ def video_to_frames(video_path, path_output_dir):
 
     while vid_cap.isOpened():
         success, image = vid_cap.read()
+
         if success:
+            if size != ():
+                image = Image.fromarray(image)
+                image = image.resize(size)
+                image = numpy.array(image)
             cv2.imwrite(os.path.join(path_output_dir, 'frame_%d.png') % count, image)
             if len(current_triplet) == 3:
                 current_triplet[0] = current_triplet[1]
@@ -36,5 +46,8 @@ def video_to_frames(video_path, path_output_dir):
 
 
 if __name__ == '__main__':
-    video_to_frames(r"D:\github_local\videos\Spring - Blender Open Movie.mp4",
-                    r"D:\github_local\fps_upscaling\Data\Datasets\Spring")
+    # video_to_frames(r"D:\github_local\videos\360p_sintel.mp4",
+    #                 r"D:\github_local\fps_upscaling\Data\Datasets\360p_sintel")
+    video_to_frames(r"D:\github_local\videos\Sintel - Français - 3ème film libre de la fondat.mp4",
+                    r"D:\github_local\fps_upscaling\Data\Datasets\240p_sintel",
+                    size=(426, 240))

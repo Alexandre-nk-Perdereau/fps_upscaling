@@ -3,6 +3,7 @@ from config import datasets_path
 from os.path import join
 from PIL import Image
 import torchvision.transforms.transforms as transforms
+from torch.nn.functional import interpolate
 from config import debug_path
 
 TRAINING_SET = 0
@@ -35,11 +36,25 @@ class FrameUpscalingDataset(Dataset):
         following_image = Image.open(triplet[2])
         target_image = Image.open(triplet[1])
 
-        previous_tensor = self.transformations(previous_image)
-        following_tensor = self.transformations(following_image)
-        target_tensor = self.transformations(target_image)
+        previous_tensor = self.transformations(previous_image) / 255.
+        following_tensor = self.transformations(following_image) / 255.
+        target_tensor = self.transformations(target_image) / 255.
         # I will need to change it when I will add random transforms to apply the same transforms to the triplet
 
+        chan, line, row = previous_tensor.shape
+
+        if line % 8 != 0 or row % 8 != 0:
+            previous_tensor = previous_tensor.unsqueeze(0)
+            following_tensor = following_tensor.unsqueeze(0)
+            target_tensor = target_tensor.unsqueeze(0)
+
+            previous_tensor = interpolate(previous_tensor, (line - line % 8, row - row % 8))
+            following_tensor = interpolate(following_tensor, (line - line % 8, row - row % 8))
+            target_tensor = interpolate(target_tensor, (line - line % 8, row - row % 8))
+
+            previous_tensor = previous_tensor.squeeze(0)
+            following_tensor = following_tensor.squeeze(0)
+            target_tensor = target_tensor.squeeze(0)
         return previous_tensor, following_tensor, target_tensor
 
     def __len__(self):
@@ -47,7 +62,7 @@ class FrameUpscalingDataset(Dataset):
 
 
 if __name__ == "__main__":
-    test_ds = FrameUpscalingDataset(['test_ds'], TRAINING_SET)
-    test_tensor, _, _ = test_ds[1000]
-    test_image = transforms.ToPILImage()(test_tensor)
-    test_image.save(join(debug_path, "test_image.jpg"))
+    test_ds = FrameUpscalingDataset(['sintel'], TRAINING_SET)
+    # test_tensor, _, _ = test_ds[1000]
+    # test_image = transforms.ToPILImage()(test_tensor)
+    # test_image.save(join(debug_path, "test_image.jpg"))
