@@ -3,7 +3,7 @@ from os.path import join
 
 import torch
 
-from config import datafolder_path, models_directory
+from config import models_directory
 from dataset import FrameUpscalingDataset
 from models import YModel
 
@@ -59,8 +59,8 @@ def train(folder_list, model_name="", epoch_number=10, approach="MSE", batch_siz
         print(loss_avg)
         losses.append(loss_avg)
 
-        torch.save(model, join(temp_directory, "epoch" + str(epoch)))
-    torch.save(model, join(temp_directory, model_name))
+        torch.save(model.state_dict(), join(temp_directory, "epoch" + str(epoch) + '.pt'))
+    torch.save(model.state_dict(), join(save_directory, model_name + '.pt'))
     loss_file = open(join(save_directory, "loss.txt"), 'w')
     loss_file.write(str(losses))
     loss_file.close()
@@ -68,4 +68,4 @@ def train(folder_list, model_name="", epoch_number=10, approach="MSE", batch_siz
 
 if __name__ == '__main__':
     # torch.autograd.set_detect_anomaly(True)
-    train(['240p_sintel'], batch_size=16)
+    train(['240p_sintel'], batch_size=16, epoch_number=9)
