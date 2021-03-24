@@ -41,12 +41,6 @@ def train(folder_list, model_name="", epoch_number=10, approach="MSE", batch_siz
             target_tensor = target_tensor.to(device)
 
             interpolation_tensor = model(previous_tensor, following_tensor)
-            if interpolation_tensor.shape != target_tensor.shape:
-                print("PROBLEM")
-                print(interpolation_tensor.shape)
-                print(target_tensor.shape)
-                print(previous_tensor.shape)
-                print(following_tensor.shape)
 
             loss = criterion(interpolation_tensor, target_tensor)
             optimiser.zero_grad()
@@ -55,7 +49,7 @@ def train(folder_list, model_name="", epoch_number=10, approach="MSE", batch_siz
             loss_avg += loss.item()
 
             optimiser.step()
-        loss_avg /= i + 1
+        loss_avg /= batch_length
         print(loss_avg)
         losses.append(loss_avg)
 
@@ -68,4 +62,4 @@ def train(folder_list, model_name="", epoch_number=10, approach="MSE", batch_siz
 
 if __name__ == '__main__':
     # torch.autograd.set_detect_anomaly(True)
-    train(['240p_sintel'], batch_size=16, epoch_number=9)
+    train(['240p_sintel'], batch_size=8, epoch_number=10)

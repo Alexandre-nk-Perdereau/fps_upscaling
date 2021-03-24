@@ -20,6 +20,8 @@ class FrameUpscalingDataset(Dataset):
         else:
             self.transformations = transforms.Compose([transforms.ToTensor()])
 
+        if not isinstance(folder_list, list):
+            folder_list = [folder_list]
         for folder in folder_list:
             triplets_folder = open(join(datasets_path + folder, "triplets.txt"), 'r')
             triplet_strings = (triplets_folder.read()).split(';')
@@ -36,9 +38,9 @@ class FrameUpscalingDataset(Dataset):
         following_image = Image.open(triplet[2])
         target_image = Image.open(triplet[1])
 
-        previous_tensor = self.transformations(previous_image) / 255.
-        following_tensor = self.transformations(following_image) / 255.
-        target_tensor = self.transformations(target_image) / 255.
+        previous_tensor = self.transformations(previous_image)
+        following_tensor = self.transformations(following_image)
+        target_tensor = self.transformations(target_image)
         # I will need to change it when I will add random transforms to apply the same transforms to the triplet
 
         chan, line, row = previous_tensor.shape

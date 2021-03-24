@@ -19,6 +19,7 @@ class YModel(nn.Module):
         self.deconv3 = nn.ConvTranspose2d(in_channels=64, out_channels=64, stride=2, kernel_size=2, padding=0)
         # the article use 3x3 kernels instead
         self.finalconv = nn.Conv2d(in_channels=64, out_channels=3, kernel_size=3, padding=1)
+        self.tanh = nn.Tanh()
 
     def forward(self, previous_input, following_input):
 
@@ -56,6 +57,7 @@ class YModel(nn.Module):
         y = self.deconv3(y)
         y = y + residual_pow0
         y = self.finalconv(y)
+        y = self.tanh(y)
 
         return y
 
