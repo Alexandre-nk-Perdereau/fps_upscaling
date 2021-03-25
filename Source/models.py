@@ -1,4 +1,4 @@
-import torch
+from torchvision import models
 from torch import nn
 
 from dataset import FrameUpscalingDataset, TRAINING_SET
@@ -23,7 +23,6 @@ class YModel(nn.Module):
         self.tanh = nn.Tanh()
 
     def forward(self, previous_input, following_input):
-
         left_branch = self.conv1(previous_input)  # 1=0.5^0
         left_branch = self.relu(left_branch)
         residual_pow0 = left_branch
@@ -76,6 +75,21 @@ class YModel(nn.Module):
 
         return y
 
+class Discriminator(nn.Module):
+    def __init__(self):
+        super(Discriminator, self).__init__()
+        resnet18 = models.resnet18()
+        features = resnet18.fc.in_features
+        resnet18.fc = nn.Linear(features, 1)
+        sigmoid = nn.Sigmoid()
+        self.model = nn.Sequential(resnet18, sigmoid)
+
+    def forward(self, input):
+        """
+        return the probability of the input image to be a real one
+        """
+        probability = self.model(input)
+        return probability
 
 if __name__ == '__main__':
     test_ds = FrameUpscalingDataset(['test_ds'], TRAINING_SET)
