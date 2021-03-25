@@ -49,5 +49,8 @@ if __name__ == '__main__':
     # video_to_frames(r"D:\github_local\videos\360p_sintel.mp4",
     #                 r"D:\github_local\fps_upscaling\Data\Datasets\360p_sintel")
     video_to_frames(r"D:\github_local\videos\Spring - Blender Open Movie.mp4",
-                    r"D:\github_local\fps_upscaling\Data\Datasets\240p_spring",
+                    r"D:\github_local\frame_interpolation\Data\Datasets\240p_spring",
+                    size=(426, 240))
+    video_to_frames(r"D:\github_local\videos\Sintel - Français - 3ème film libre de la fondat.mp4",
+                    r"D:\github_local\frame_interpolation\Data\Datasets\240p_sintel",
                     size=(426, 240))
