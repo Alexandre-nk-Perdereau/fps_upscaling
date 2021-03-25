@@ -13,6 +13,7 @@ class YModel(nn.Module):
         self.conv4 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=1, padding_mode='zeros')
         self.conv5 = nn.Conv2d(in_channels=128, out_channels=128, kernel_size=3, padding=1, padding_mode='zeros')
         self.maxpool = nn.MaxPool2d((2, 2), padding=0)
+        self.relu = nn.ReLU()
 
         self.deconv1 = nn.ConvTranspose2d(in_channels=128, out_channels=64, stride=2, kernel_size=2, padding=0)
         self.deconv2 = nn.ConvTranspose2d(in_channels=64, out_channels=64, stride=2, kernel_size=2, padding=0)
@@ -24,37 +25,50 @@ class YModel(nn.Module):
     def forward(self, previous_input, following_input):
 
         left_branch = self.conv1(previous_input)  # 1=0.5^0
+        left_branch = self.relu(left_branch)
         residual_pow0 = left_branch
         left_branch = self.maxpool(left_branch)  # 0.5^1
         residual_pow1 = left_branch
         left_branch = self.conv2(left_branch)  # 0.5^1
+        left_branch = self.relu(left_branch)
         left_branch = self.conv3(left_branch)  # 0.5^1
+        left_branch = self.relu(left_branch)
         left_branch = self.maxpool(left_branch)  # 0.5^2
         residual_pow2 = left_branch
         left_branch = self.conv4(left_branch)  # 0.5^2
+        left_branch = self.relu(left_branch)
         left_branch = self.conv5(left_branch)  # 0.5^2
+        left_branch = self.relu(left_branch)
         left_branch = self.maxpool(left_branch)  # 0.5^3
         # residual_pow3 = left_branch
 
         right_branch = self.conv1(following_input)
+        right_branch = self.relu(right_branch)
         residual_pow0 = residual_pow0 + right_branch
         right_branch = self.maxpool(right_branch)
         residual_pow1 = residual_pow1 + right_branch
         right_branch = self.conv2(right_branch)
+        right_branch = self.relu(right_branch)
         right_branch = self.conv3(right_branch)
+        right_branch = self.relu(right_branch)
         right_branch = self.maxpool(right_branch)
         residual_pow2 = residual_pow2 + right_branch
         right_branch = self.conv4(right_branch)
+        right_branch = self.relu(right_branch)
         right_branch = self.conv5(right_branch)
+        right_branch = self.relu(right_branch)
         right_branch = self.maxpool(right_branch)
 
         y = left_branch + right_branch
 
         y = self.deconv1(y)
+        y = self.relu(y)
         y = y + residual_pow2
         y = self.deconv2(y)
+        y = self.relu(y)
         y = y + residual_pow1
         y = self.deconv3(y)
+        y = self.relu(y)
         y = y + residual_pow0
         y = self.finalconv(y)
         y = self.tanh(y)
