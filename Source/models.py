@@ -72,6 +72,7 @@ class YModel(nn.Module):
         y = y + residual_pow0
         y = self.finalconv(y)
         y = self.tanh(y)
+        y = self.relu(y)
 
         return y
 
