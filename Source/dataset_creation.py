@@ -6,6 +6,12 @@ from pathlib import Path
 
 
 def video_to_frames(video_path, path_output_dir, size=()):
+    """
+    create a folder containing all the images extracted from a video
+    :param video_path:  (string) path of the video
+    :param path_output_dir: (string)    path of the folder where the images will be stored
+    :param size:    (int tupple) if void do nothing, else change the size of the images to this tupple. Useful to downsample image.
+    """
 
     Path(path_output_dir).mkdir(parents=True, exist_ok=True)
 

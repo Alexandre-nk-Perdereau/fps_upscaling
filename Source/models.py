@@ -75,6 +75,7 @@ class YModel(nn.Module):
 
         return y
 
+
 class Discriminator(nn.Module):
     def __init__(self):
         super(Discriminator, self).__init__()
@@ -84,12 +85,13 @@ class Discriminator(nn.Module):
         sigmoid = nn.Sigmoid()
         self.model = nn.Sequential(resnet18, sigmoid)
 
-    def forward(self, input):
+    def forward(self, image):
         """
         return the probability of the input image to be a real one
         """
-        probability = self.model(input)
+        probability = self.model(image)
         return probability
+
 
 if __name__ == '__main__':
     test_ds = FrameUpscalingDataset(['test_ds'], TRAINING_SET)

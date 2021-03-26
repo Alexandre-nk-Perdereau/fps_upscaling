@@ -12,6 +12,13 @@ import torchvision.transforms.transforms as transforms
 
 
 def test(model_name, test_folders, debug_images=False, device="cuda"):
+    """
+    calculate the mse on a test set.
+    :param model_name:  (string) name under which the model is saved.
+    :param test_folders:    (list[string]) folders that contains the test data
+    :param debug_images:    (boolean)   if True, save the comparison image actual image - interpolated image
+    :param device:  (string) cuda or cpu
+    """
     device = torch.device(device)
     model = YModel()
     model.load_state_dict(torch.load(join(join(models_directory, model_name), model_name + '.pt')))
