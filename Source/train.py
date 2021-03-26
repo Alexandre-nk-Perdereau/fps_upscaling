@@ -10,6 +10,14 @@ from models import YModel, Discriminator
 
 
 def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers=4):
+    """
+    train a Ymodel using the MSE approach.
+    :param folder_list: (list[string]) folders containing the training datasets
+    :param model_name:  (string) save name of the model, if length=0 then savename = ymodel_MSE_epochnumberX.pt
+    :param epoch_number:    (int) number of epoch
+    :param batch_size:  (int)   batch size
+    :param num_workers: (int) number of workers
+    """
     # If I want to use batch>1 I need to write a collate_fn or to use only images with the same resolution
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("device: " + str(device))
@@ -63,6 +71,15 @@ def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers
 
 
 def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers=4, gamma=1):
+    """
+    train a Ymodel using the GAN approach.
+    :param folder_list: (list[string]) folders containing the training datasets
+    :param model_name:  (string) save name of the model, if length=0 then savename = ymodel_GAN_epochnumberX_gammaY.pt
+    :param epoch_number:    (int) number of epoch
+    :param batch_size:  (int)   batch size
+    :param num_workers: (int) number of workers
+    :param gamma:   (float) factor of the exponantial decay of the weight of the MSE
+    """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if model_name == "":
         model_name = "ymodel_" + "GAN" + "_epochnumber" + str(epoch_number) + "_gamma" + str(gamma)
