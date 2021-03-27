@@ -1,17 +1,18 @@
-from pathlib import Path
 from os.path import join
 
 import numpy
 import torch
+from skimage.metrics import structural_similarity
 
 from config import models_directory, debug_path
 from dataset import FrameUpscalingDataset
 from models import YModel
+from numpy import log10, swapaxes
 
 import torchvision.transforms.transforms as transforms
 
 
-def test(model_name, test_folders, debug_images=False, device="cuda"):
+def test(model_name, test_folders, debug_images=False, device="cuda", measure_ssim=False):
     """
     calculate the mse on a test set.
     :param model_name:  (string) name under which the model is saved.
@@ -30,6 +31,8 @@ def test(model_name, test_folders, debug_images=False, device="cuda"):
     criterion = torch.nn.MSELoss().to(device)
     test_length = len(test_set)
     losses = numpy.zeros((test_length, 1))
+    if measure_ssim:
+        ssim_list = numpy.zeros((test_length, 1))
 
     transforms_to_pilimage = transforms.ToPILImage(mode="RGB")
 
@@ -43,7 +46,8 @@ def test(model_name, test_folders, debug_images=False, device="cuda"):
         target_tensor = target_tensor.unsqueeze(0)
 
         interpolated_tensor = model(previous_tensor, following_tensor)
-        loss = criterion(interpolated_tensor, target_tensor)
+
+        loss = criterion(interpolated_tensor, target_tensor)  # loss = MSE
         losses[i] = loss.item()
 
         if debug_images:
@@ -52,12 +56,22 @@ def test(model_name, test_folders, debug_images=False, device="cuda"):
             comparison_tensor = torch.cat((target_tensor, interpolated_tensor), dim=1)
             comparison_tensor * 255
             comparison_image = transforms_to_pilimage(comparison_tensor.cpu())
-
             save_name = join(debug_path, str(i) + ".png")
             comparison_image.save(save_name)
 
-    print(numpy.mean(losses[i]))
+        if measure_ssim:
+            ssim_list[i] = structural_similarity(swapaxes(target_tensor.squeeze(0).cpu().detach().numpy(), 0, 2),
+                                                 swapaxes(interpolated_tensor.squeeze(0).cpu().detach().numpy(), 0, 2),
+                                                 multichannel=True)
+
+    print("mse: " + str(numpy.mean(losses)))
+    print('psnr: ' + str(numpy.mean(10 * log10(1 / losses))))
+    if measure_ssim:
+        print("ssim :" + str(numpy.mean(ssim_list)))
 
 
 if __name__ == '__main__':
-    test('ymodel_MSE_epochnumber10', "240p_spring", debug_images=True)
+    print("MSE")
+    test('ymodel_MSE_epochnumber10', "240p_spring", debug_images=False, measure_ssim=True)
+    print("GAN")
+    test('ymodel_GAN_epochnumber10_gamma0.5', "240p_spring", debug_images=False, measure_ssim=True)
