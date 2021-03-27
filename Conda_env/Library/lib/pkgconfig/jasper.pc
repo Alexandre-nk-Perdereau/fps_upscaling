@@ -1,9 +1,0 @@
-libdir=D:/github_local/fps_upscaling/Conda_env/Library/lib
-includedir=D:/github_local/fps_upscaling/Conda_env/Library/include
-
-Name: JasPer
-Description: Image Processing/Coding Tool Kit with JPEG-2000 Support
-Version: 2.0.14
-
-Libs: -L${libdir} -ljasper
-Cflags: -I${includedir}/jasper
