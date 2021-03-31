@@ -9,7 +9,7 @@ from dataset import FrameUpscalingDataset
 from models import YModel, Discriminator
 
 
-def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers=4):
+def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers=4, epoch_start=0):
     """
     train a Ymodel using the MSE approach.
     :param folder_list: (list[string]) folders containing the training datasets
@@ -17,12 +17,14 @@ def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers
     :param epoch_number:    (int) number of epoch
     :param batch_size:  (int)   batch size
     :param num_workers: (int) number of workers
+    :param epoch_start (int) if different from 0 allows you to resume a training already started
+
     """
     # If I want to use batch>1 I need to write a collate_fn or to use only images with the same resolution
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("device: " + str(device))
     if model_name == "":
-        model_name = "ymodel_" + "MSE" + "_epochnumber" + str(epoch_number)
+        model_name = "ymodel_" + "MSE"
     save_directory = join(models_directory, model_name)
     Path(save_directory).mkdir(parents=True, exist_ok=True)
     temp_directory = join(save_directory, "temp")
@@ -32,6 +34,10 @@ def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers
     optimiser = torch.optim.Adam(params=filter(lambda p: p.requires_grad, model.parameters()))
 
     model.to(device)
+    if epoch_start != 0:
+        model_temp = join(temp_directory, "epoch" + str(epoch_start - 1) + ".pt")
+        print("loading " + model_temp)
+        model.load_state_dict(torch.load(model_temp))
     criterion = torch.nn.MSELoss().to(device)
 
     train_dataset = FrameUpscalingDataset(folder_list, 0)
@@ -40,7 +46,7 @@ def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers
     losses = []
     batch_length = len(train_loader)
 
-    for epoch in range(epoch_number):
+    for epoch in range(epoch_start, epoch_number):
         print("beginning of epoch " + str(epoch))
         loss_avg = 0
         model.train()
@@ -64,13 +70,13 @@ def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers
         losses.append(loss_avg)
 
         torch.save(model.state_dict(), join(temp_directory, "epoch" + str(epoch) + '.pt'))
-    torch.save(model.state_dict(), join(save_directory, model_name + '.pt'))
-    loss_file = open(join(save_directory, "loss.txt"), 'w')
+    torch.save(model.state_dict(), join(save_directory, model_name + "_epochnumber" + str(epoch_number) + '.pt'))
+    loss_file = open(join(save_directory, "loss_" + str(epoch_start) + "to" + str(epoch_start) + ".txt"), 'w')
     loss_file.write(str(losses))
     loss_file.close()
 
 
-def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers=4, gamma=1):
+def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers=4, gamma=1,epoch_start=0):
     """
     train a Ymodel using the GAN approach.
     :param folder_list: (list[string]) folders containing the training datasets
@@ -79,10 +85,11 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
     :param batch_size:  (int)   batch size
     :param num_workers: (int) number of workers
     :param gamma:   (float) factor of the exponantial decay of the weight of the MSE
+    :param epoch_start (int) if different from 0 allows you to resume a training already started
     """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if model_name == "":
-        model_name = "ymodel_" + "GAN" + "_epochnumber" + str(epoch_number) + "_gamma" + str(gamma)
+        model_name = "ymodel_" + "GAN" + "_gamma" + str(gamma)
     save_directory = join(models_directory, model_name)
     Path(save_directory).mkdir(parents=True, exist_ok=True)
     temp_directory = join(save_directory, "temp")
@@ -95,6 +102,14 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
 
     model.to(device)
     discriminator.to(device)
+    if epoch_start != 0:
+        model_temp = join(temp_directory, "epoch" + str(epoch_start - 1) + ".pt")
+        discriminator_temp = join(temp_directory, "discriminator_epoch" + str(epoch_start - 1) + ".pt")
+        print("loading " + model_temp)
+        model.load_state_dict(torch.load(model_temp))
+        print("loading " + discriminator_temp)
+        discriminator.load_state_dict(torch.load(discriminator_temp))
+
     criterion = torch.nn.MSELoss().to(device)
     adversarial_loss_criterion = torch.nn.BCELoss().to(device)
 
@@ -104,7 +119,7 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
     losses = []
     batch_length = len(train_loader)
 
-    for epoch in range(epoch_number):
+    for epoch in range(epoch_start, epoch_number):
         print("beginning of epoch " + str(epoch))
         loss_avg = 0
         model.train()
@@ -151,15 +166,15 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
         torch.save(model.state_dict(), join(temp_directory, "epoch" + str(epoch) + '.pt'))
         torch.save(discriminator.state_dict(), join(temp_directory, "discriminator_epoch" + str(epoch) + '.pt'))
 
-    torch.save(model.state_dict(), join(save_directory, model_name + '.pt'))
-    torch.save(discriminator.state_dict(), join(save_directory, "discriminator_" + model_name + '.pt'))
+    torch.save(model.state_dict(), join(save_directory, model_name + "_epochnumber" + str(epoch_number) + '.pt'))
+    torch.save(discriminator.state_dict(), join(save_directory, "discriminator_" + model_name + "_epochnumber" + str(epoch_number) + '.pt'))
 
-    loss_file = open(join(save_directory, "loss.txt"), 'w')
+    loss_file = open(join(save_directory, "loss_" + str(epoch_start) + str(epoch_start) + ".txt"), 'w')
     loss_file.write(str(losses))
     loss_file.close()
 
 
 if __name__ == '__main__':
     # torch.autograd.set_detect_anomaly(True)
-    # train(['240p_sintel'], batch_size=16, epoch_number=10)
-    train_gan(['240p_sintel'], batch_size=16, epoch_number=10, gamma=0.5)
+    train(['240p_sintel'], batch_size=16, epoch_number=15, epoch_start=12)
+    # train_gan(['240p_sintel'], batch_size=8, epoch_number=12, gamma=0.5, epoch_start=10)
