@@ -71,7 +71,7 @@ def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers
 
         torch.save(model.state_dict(), join(temp_directory, "epoch" + str(epoch) + '.pt'))
     torch.save(model.state_dict(), join(save_directory, model_name + "_epochnumber" + str(epoch_number) + '.pt'))
-    loss_file = open(join(save_directory, "loss_" + str(epoch_start) + "to" + str(epoch_start) + ".txt"), 'w')
+    loss_file = open(join(save_directory, "loss_" + str(epoch_start) + "to" + str(epoch_number) + ".txt"), 'w')
     loss_file.write(str(losses))
     loss_file.close()
 
@@ -169,7 +169,7 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
     torch.save(model.state_dict(), join(save_directory, model_name + "_epochnumber" + str(epoch_number) + '.pt'))
     torch.save(discriminator.state_dict(), join(save_directory, "discriminator_" + model_name + "_epochnumber" + str(epoch_number) + '.pt'))
 
-    loss_file = open(join(save_directory, "loss_" + str(epoch_start) + str(epoch_start) + ".txt"), 'w')
+    loss_file = open(join(save_directory, "loss_" + str(epoch_start) + "to" + str(epoch_number) + ".txt"), 'w')
     loss_file.write(str(losses))
     loss_file.close()
 
