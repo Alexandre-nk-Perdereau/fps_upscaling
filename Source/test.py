@@ -73,6 +73,6 @@ def test(model_name, model_epoch, test_folders, debug_images=False, device="cuda
 
 if __name__ == '__main__':
     print("MSE")
-    test('ymodel_MSE_epochnumber10', "240p_spring", debug_images=False, measure_ssim=True)
-    print("GAN")
-    test('ymodel_GAN_epochnumber10_gamma0.5', "240p_spring", debug_images=False, measure_ssim=True)
+    test("ymodel_MSE", 19, "240p_spring", debug_images=True, measure_ssim=False)
+    # print("GAN")
+    # test('ymodel_GAN_epochnumber10_gamma0.5', 19, "240p_spring", debug_images=False, measure_ssim=True)
