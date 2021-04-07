@@ -1,13 +1,15 @@
 from os.path import join
 
+import cv2
 import numpy
 import torch
 from skimage.metrics import structural_similarity
 
-from config import models_directory, debug_path
+from config import models_directory, debug_path, datafolder_path
 from dataset import FrameUpscalingDataset
 from models import YModel
 from numpy import log10, swapaxes
+from PIL import Image
 
 import torchvision.transforms.transforms as transforms
 
@@ -23,7 +25,8 @@ def test(model_name, model_epoch, test_folders, debug_images=False, device="cuda
     """
     device = torch.device(device)
     model = YModel()
-    model.load_state_dict(torch.load(join(join(models_directory, model_name + "/temp"), "epoch" + str(model_epoch) + '.pt')))
+    model.load_state_dict(
+        torch.load(join(join(models_directory, model_name + "/temp"), "epoch" + str(model_epoch) + '.pt')))
     model.to(device)
     model.eval()
 
@@ -71,8 +74,62 @@ def test(model_name, model_epoch, test_folders, debug_images=False, device="cuda
         print("ssim :" + str(numpy.mean(ssim_list)))
 
 
+def video_interpolation(video_name, output_name, model_name, model_epoch, device="cuda"):
+    video_complete_path = join(join(datafolder_path, "Videos"), video_name)
+    vid_cap = cv2.VideoCapture(video_complete_path)
+    input_fps = vid_cap.get(cv2.CAP_PROP_FPS)
+    definition = (int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+    device = torch.device(device)
+    model = YModel()
+    model.load_state_dict(
+        torch.load(join(join(models_directory, model_name + "/temp"), "epoch" + str(model_epoch) + '.pt')))
+    model.to(device)
+    model.eval()
+
+    save_name = join(join(datafolder_path, "Videos"), output_name)
+    # writer = cv2.VideoWriter(savename, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), input_fps//divide_frame_factor , output_resolution)
+
+    writer = cv2.VideoWriter(save_name, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), input_fps*2, definition)
+    to_tensor = transforms.ToTensor()
+    tensor_list = []
+    while vid_cap.isOpened():
+        success, image = vid_cap.read()
+
+        if success:
+            image_umat = Image.fromarray(image)
+
+            if len(tensor_list) < 2:
+                tensor_list.append(to_tensor(image_umat).to(device))
+
+                if len(tensor_list) ==2:
+                    interpolated_tensor = model(tensor_list[0][None, ...], tensor_list[1][None, ...])
+                    interpolated_array = (interpolated_tensor.squeeze(0).permute(1, 2, 0).cpu().detach() * 255).numpy().astype(numpy.uint8)
+                    writer.write(interpolated_array)
+
+
+            else:
+                tensor_list[0] = tensor_list[1].detach().clone()
+                tensor_list[1] = to_tensor(image_umat).to(device)
+
+                interpolated_tensor = model(tensor_list[0][None, ...], tensor_list[1][None, ...])
+                interpolated_array = (interpolated_tensor.squeeze(0).permute(1, 2, 0).cpu().detach() * 255).numpy().astype(numpy.uint8)
+                writer.write(interpolated_array)
+
+            writer.write(image)
+
+        else:
+            break
+    vid_cap.release()
+    writer.release()
+
+
 if __name__ == '__main__':
     print("MSE")
-    test("ymodel_MSE", 19, "240p_spring", debug_images=True, measure_ssim=False)
-    # print("GAN")
-    # test('ymodel_GAN_epochnumber10_gamma0.5', 19, "240p_spring", debug_images=False, measure_ssim=True)
+    # test("ymodel_MSE", 19, "240p_spring", debug_images=True, measure_ssim=False)
+    video_interpolation("spring240pframedividedby2.avi", "spring240pMSE.avi", "ymodel_MSE", 29)
+
+    print("GAN")
+    # test('ymodel_GAN_gamma0.5', 19, "240p_spring", debug_images=False, measure_ssim=True)
+    video_interpolation("spring240pframedividedby2.avi", "spring240pGAN.avi", "ymodel_GAN_gamma0.5", 29)
+
+

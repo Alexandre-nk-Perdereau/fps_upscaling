@@ -3,6 +3,8 @@ import numpy
 from PIL import Image
 import os
 from pathlib import Path
+from os.path import join
+from config import datafolder_path
 
 
 def video_to_frames(video_path, path_output_dir, size=()):
@@ -50,13 +52,38 @@ def video_to_frames(video_path, path_output_dir, size=()):
     file_triplets.close()
 
 
+def video_degradation(video_complete_path, output_name, divide_frame_factor, output_resolution):
+    savename = join(join(datafolder_path, "Videos"), output_name)
+    vid_cap = cv2.VideoCapture(video_complete_path)
+    input_fps = vid_cap.get(cv2.CAP_PROP_FPS)
+
+    writer = cv2.VideoWriter(savename, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), input_fps // 2, output_resolution)
+
+
+    count = 0
+    while vid_cap.isOpened():
+        success, image = vid_cap.read()
+        if success:
+            count += 1
+            if count >= divide_frame_factor:
+                image = Image.fromarray(image)
+                image = image.resize(output_resolution)
+                image = numpy.array(image)
+                writer.write(image)
+                count = 0
+        else:
+            break
+    vid_cap.release()
+    writer.release()
+
 
 if __name__ == '__main__':
     # video_to_frames(r"D:\github_local\videos\360p_sintel.mp4",
     #                 r"D:\github_local\fps_upscaling\Data\Datasets\360p_sintel")
-    video_to_frames(r"D:\github_local\videos\Spring - Blender Open Movie.mp4",
-                    r"D:\github_local\frame_interpolation\Data\Datasets\240p_spring",
-                    size=(426, 240))
-    video_to_frames(r"D:\github_local\videos\Sintel - Français - 3ème film libre de la fondat.mp4",
-                    r"D:\github_local\frame_interpolation\Data\Datasets\240p_sintel",
-                    size=(426, 240))
+    # video_to_frames(r"D:\github_local\videos\Spring - Blender Open Movie.mp4",
+    #                 r"D:\github_local\frame_interpolation\Data\Datasets\240p_spring",
+    #                 size=(426, 240))
+    # video_to_frames(r"D:\github_local\videos\Sintel - Français - 3ème film libre de la fondat.mp4",
+    #                 r"D:\github_local\frame_interpolation\Data\Datasets\240p_sintel",
+    #                 size=(426, 240))
+    video_degradation(r"D:\github_local\videos\Spring - Blender Open Movie.mp4", "spring240pframedividedby2.avi", 2, (424, 240))

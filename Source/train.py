@@ -176,5 +176,5 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
 
 if __name__ == '__main__':
     # torch.autograd.set_detect_anomaly(True)
-    # train(['240p_sintel'], batch_size=16, epoch_number=20, epoch_start=15)
-    train_gan(['240p_sintel'], batch_size=16, epoch_number=20, gamma=0.5, epoch_start=12)
+    train(['240p_sintel'], batch_size=16, epoch_number=30, epoch_start=20)
+    # train_gan(['240p_sintel'], batch_size=16, epoch_number=30, gamma=0.5, epoch_start=20)
