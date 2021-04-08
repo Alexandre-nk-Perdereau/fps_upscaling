@@ -22,6 +22,7 @@ def test(model_name, model_epoch, test_folders, debug_images=False, device="cuda
     :param test_folders:    (list[string]) folders that contains the test data
     :param debug_images:    (boolean)   if True, save the comparison image actual image - interpolated image
     :param device:  (string) cuda or cpu
+    :param measure_ssim: (boolean) if true, compute the ssim
     """
     device = torch.device(device)
     model = YModel()
@@ -75,6 +76,14 @@ def test(model_name, model_epoch, test_folders, debug_images=False, device="cuda
 
 
 def video_interpolation(video_name, output_name, model_name, model_epoch, device="cuda"):
+    """
+    create a video with double the framerate of the original video using interpolation by our model.
+    :param video_name:  (string) the input video name
+    :param output_name: (string) the output video name
+    :param model_name:  (string) the model name that performs the interpolation
+    :param model_epoch: (int) load the model trained in epoch model_epoch
+    :param device:  (string) cuda or cpu
+    """
     video_complete_path = join(join(datafolder_path, "Videos"), video_name)
     vid_cap = cv2.VideoCapture(video_complete_path)
     input_fps = vid_cap.get(cv2.CAP_PROP_FPS)
@@ -125,11 +134,11 @@ def video_interpolation(video_name, output_name, model_name, model_epoch, device
 
 if __name__ == '__main__':
     print("MSE")
-    # test("ymodel_MSE", 19, "240p_spring", debug_images=True, measure_ssim=False)
-    video_interpolation("spring240pframedividedby2.avi", "spring240pMSE.avi", "ymodel_MSE", 29)
+    test("ymodel_MSE", 29, "240p_spring", debug_images=True, measure_ssim=True)
+    # video_interpolation("spring240pframedividedby2.avi", "spring240pMSE.avi", "ymodel_MSE", 29)
 
     print("GAN")
-    # test('ymodel_GAN_gamma0.5', 19, "240p_spring", debug_images=False, measure_ssim=True)
-    video_interpolation("spring240pframedividedby2.avi", "spring240pGAN.avi", "ymodel_GAN_gamma0.5", 29)
+    test('ymodel_GAN_gamma0.5', 29, "240p_spring", debug_images=False, measure_ssim=True)
+    # video_interpolation("spring240pframedividedby2.avi", "spring240pGAN.avi", "ymodel_GAN_gamma0.5", 29)
 
 

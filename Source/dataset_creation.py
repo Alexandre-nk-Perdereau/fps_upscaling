@@ -53,6 +53,13 @@ def video_to_frames(video_path, path_output_dir, size=()):
 
 
 def video_degradation(video_complete_path, output_name, divide_frame_factor, output_resolution):
+    """
+    create a video with degraded properties.
+    :param video_complete_path: (string) path of the input video
+    :param output_name: (string) name of the output video
+    :param divide_frame_factor: (int) output_framerate = input_framerate / divide_frame_factor
+    :param output_resolution:   (int tupple) resolution of the output video
+    """
     savename = join(join(datafolder_path, "Videos"), output_name)
     vid_cap = cv2.VideoCapture(video_complete_path)
     input_fps = vid_cap.get(cv2.CAP_PROP_FPS)
