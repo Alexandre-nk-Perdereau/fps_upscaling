@@ -96,8 +96,6 @@ def video_interpolation(video_name, output_name, model_name, model_epoch, device
     model.eval()
 
     save_name = join(join(datafolder_path, "Videos"), output_name)
-    # writer = cv2.VideoWriter(savename, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), input_fps//divide_frame_factor , output_resolution)
-
     writer = cv2.VideoWriter(save_name, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), input_fps*2, definition)
     to_tensor = transforms.ToTensor()
     tensor_list = []
@@ -134,11 +132,11 @@ def video_interpolation(video_name, output_name, model_name, model_epoch, device
 
 if __name__ == '__main__':
     print("MSE")
-    test("ymodel_MSE", 29, "240p_spring", debug_images=True, measure_ssim=True)
-    # video_interpolation("spring240pframedividedby2.avi", "spring240pMSE.avi", "ymodel_MSE", 29)
+    # test("ymodel_MSE", 29, "240p_spring", debug_images=True, measure_ssim=True)
+    video_interpolation("spring240pframedividedby2.avi", "spring240pMSE.avi", "ymodel_MSE_240p_sintel", 29)
 
     print("GAN")
-    test('ymodel_GAN_gamma0.5', 29, "240p_spring", debug_images=False, measure_ssim=True)
-    # video_interpolation("spring240pframedividedby2.avi", "spring240pGAN.avi", "ymodel_GAN_gamma0.5", 29)
+    # test('ymodel_GAN_gamma0.5', 29, "240p_spring", debug_images=False, measure_ssim=True)
+    video_interpolation("spring240pframedividedby2.avi", "spring240pGAN.avi", "ymodel_GAN_gamma0.5_240p_sintel", 29)
 
 

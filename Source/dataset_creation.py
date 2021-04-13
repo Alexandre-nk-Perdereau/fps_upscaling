@@ -93,4 +93,10 @@ if __name__ == '__main__':
     # video_to_frames(r"D:\github_local\videos\Sintel - Français - 3ème film libre de la fondat.mp4",
     #                 r"D:\github_local\frame_interpolation\Data\Datasets\240p_sintel",
     #                 size=(426, 240))
-    video_degradation(r"D:\github_local\videos\Spring - Blender Open Movie.mp4", "spring240pframedividedby2.avi", 2, (424, 240))
+    # video_degradation(r"D:\github_local\videos\Spring - Blender Open Movie.mp4", "spring240pframedividedby2.avi", 2, (424, 240))
+    video_to_frames(r"D:\github_local\videos\Spring - Blender Open Movie.mp4",
+                    r"D:\github_local\frame_interpolation\Data\Datasets\480p_spring",
+                    size=(720, 480))
+    video_to_frames(r"D:\github_local\videos\Sintel - Français - 3ème film libre de la fondat.mp4",
+                    r"D:\github_local\frame_interpolation\Data\Datasets\480p_sintel",
+                    size=(720, 480))

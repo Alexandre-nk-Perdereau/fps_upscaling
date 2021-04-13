@@ -2,12 +2,12 @@
  I am practicing here to try to reproduce the content of this article https://arxiv.org/abs/1706.01159
 
 to do:
-	- rework the tensor-ndarray transformation part of the video_interpolation function
-	- use higher resolution video sets 
+	- determine the cause of the " flashing " effect on the video test
 	- Incorporating optical flow prior approach
 
 ---
 
+A/ test on image pairs
 Training on Sintel (240p). Testing on Spring (240p).
 
 

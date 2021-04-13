@@ -25,6 +25,8 @@ def train(folder_list, model_name="", epoch_number=10, batch_size=8, num_workers
     print("device: " + str(device))
     if model_name == "":
         model_name = "ymodel_" + "MSE"
+        for train_set in folder_list:
+            model_name += "_" + train_set
     save_directory = join(models_directory, model_name)
     Path(save_directory).mkdir(parents=True, exist_ok=True)
     temp_directory = join(save_directory, "temp")
@@ -90,6 +92,8 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if model_name == "":
         model_name = "ymodel_" + "GAN" + "_gamma" + str(gamma)
+        for train_set in folder_list:
+            model_name += "_" + train_set
     save_directory = join(models_directory, model_name)
     Path(save_directory).mkdir(parents=True, exist_ok=True)
     temp_directory = join(save_directory, "temp")
@@ -176,5 +180,8 @@ def train_gan(folder_list, model_name="", epoch_number=10, batch_size=8, num_wor
 
 if __name__ == '__main__':
     # torch.autograd.set_detect_anomaly(True)
-    train(['240p_sintel'], batch_size=16, epoch_number=30, epoch_start=20)
+    # train(['240p_sintel'], batch_size=16, epoch_number=30, epoch_start=20)
     # train_gan(['240p_sintel'], batch_size=16, epoch_number=30, gamma=0.5, epoch_start=20)
+
+    train(['480p_sintel'], batch_size=4, epoch_number=20, epoch_start=10)
+    # train_gan(['480p_sintel'], batch_size=4, epoch_number=10, gamma=0.5)
